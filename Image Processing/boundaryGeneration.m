@@ -1,4 +1,4 @@
-I = imread('test_images/circle.png');
+I = imread('test_images/Longhorn.png');
 
 BW = im2bw(I);
 BW = imcomplement(BW);
@@ -33,29 +33,28 @@ for ii = 1:1:dim(1)
     theta(ii) = (ii-1)*(360/dim(1));
 end
 
+imshow(I)
+hold on;
+plot(boundary(:,2),boundary(:,1),'g','LineWidth',3);
 
-
-figure(1);
-plot(theta, normXRad)
-xlabel('degrees');
-ylabel('normalized x radius')
-figure(2);
-plot(theta, normYRad)
-xlabel('degrees');
-ylabel('normalized y radius')
-
-% convert to cartesian coordinates
-xRad_xPos = normXRad' .* cosd(theta);
-xRad_yPos = normXRad' .* sind(theta);
-
-yRad_xPos = normYRad' .* cosd(theta);
-yRad_yPos = normYRad' .* sind(theta);
-
-figure(3);
-plot(xRad_xPos, xRad_yPos);
-
-figure(4);
-plot(yRad_xPos, yRad_yPos);
-
-
-
+% figure(1);
+% plot(theta, normXRad)
+% xlabel('degrees');
+% ylabel('normalized x radius')
+% figure(2);
+% plot(theta, normYRad)
+% xlabel('degrees');
+% ylabel('normalized y radius')
+% 
+% % convert to cartesian coordinates
+% xRad_xPos = normXRad' .* cosd(theta);
+% xRad_yPos = normXRad' .* sind(theta);
+% 
+% yRad_xPos = normYRad' .* cosd(theta);
+% yRad_yPos = normYRad' .* sind(theta);
+% 
+% figure(3);
+% plot(xRad_xPos, xRad_yPos);
+% 
+% figure(4);
+% plot(yRad_xPos, yRad_yPos);
