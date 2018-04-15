@@ -1,4 +1,4 @@
-I = imread('test_images/Longhorn.png');
+I = imread('test_images/Circle.png');
 
 BW = im2bw(I);
 BW = imcomplement(BW);
@@ -47,19 +47,20 @@ ylabel('normalized y radius')
 
 % convert to cartesian coordinates
 xCamRad = nominalCamRad + normXdelRad';
-xRad_xPos = xCamRad .* cosd(theta);  
-xRad_yPos = xCamRad .* sind(theta);
-
-yCamRad = nominalCamRad + normYdelRad';
-yRad_xPos = yCamRad .* cosd(theta);
-yRad_yPos = yCamRad .* sind(theta);
-
+xRad_xPos = (nominalCamRad + (normXdelRad)) .* cosd(theta);  
+xRad_yPos = (nominalCamRad + (normXdelRad)') .* sind(theta);
+% 
+% yRad_xPos = (nominalCamRad + (normYdelRad)') .* cosd(theta);
+% yRad_yPos = (nominalCamRad + (normYdelRad)') .* sind(theta);
+% 
 figure(3);
 plot(xRad_xPos, xRad_yPos);
-
-figure(4);
-plot(yRad_xPos, yRad_yPos);
-
-A = [xRad_xPos', xRad_yPos', zeros(length(xRad_xPos), 1)];
+% 
+% figure(4);
+% plot(yRad_xPos, yRad_yPos);
+% 
+% 
+% x = 0:.1:1;
+% A = [xRad_xPos', xRad_yPos', zeros(length(xRad_xPos), 1)];
 
 save('circle xCam.txt', 'A', '-ascii', '-double', '-tabs')
