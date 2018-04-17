@@ -1,5 +1,5 @@
 
-filename = 'Longhorn.png';
+filename = 'regular_triangle.png';
 strcat(filename)
 
 I = imread(strcat('test_images/', filename));
@@ -8,7 +8,7 @@ BW = im2bw(I);
 BW = imcomplement(BW);
 dim = size(BW);
 
-centerCamRad = 100;
+centerCamRad = 1.75;
 singleSideDel = centerCamRad - 1;
 
 i = 1; j = 1;
@@ -78,8 +78,8 @@ degOffset = 90;
 yRad_xPos = yCamRad .* cosd(theta+degOffset);
 yRad_yPos = yCamRad .* sind(theta+degOffset);
 
-yRad_xPos = [yRad_xPos, yRad_xPos(1)];
-yRad_yPos = [yRad_yPos, yRad_yPos(1)];
+xRad_xPos = [xRad_xPos, xRad_xPos(1)];
+xRad_xPos = [xRad_xPos, xRad_xPos(1)];
 
 figure(3);
 subplot(1,2,1);
