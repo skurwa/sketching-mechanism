@@ -1,6 +1,10 @@
+clear all
+clf
+clc
 
 filename = 'Longhorn.png';
-strcat(filename)
+strcat(filename);
+dFollower = 1;
 
 I = imread(strcat('test_images/', filename));
 
@@ -66,6 +70,7 @@ ylabel('delta y cam radius');
 title(strcat(filename, '-change in y cam radius vs theta'));
 
 % convert to cartesian coordinates
+%Check with the camPlausibility Function
 xCamRad = centerCamRad + xDelRad';
 xRad_xPos = xCamRad .* cosd(theta);  
 xRad_yPos = xCamRad .* sind(theta);
@@ -73,6 +78,7 @@ xRad_yPos = xCamRad .* sind(theta);
 xRad_xPos = [xRad_xPos, xRad_xPos(1)];
 xRad_yPos = [xRad_yPos, xRad_yPos(1)];
 
+%Check with the campPlausibility Function
 yCamRad = centerCamRad + yDelRad';
 degOffset = 90;
 yRad_xPos = yCamRad .* cosd(theta+degOffset);
@@ -81,14 +87,42 @@ yRad_yPos = yCamRad .* sind(theta+degOffset);
 yRad_xPos = [yRad_xPos, yRad_xPos(1)];
 yRad_yPos = [yRad_yPos, yRad_yPos(1)];
 
+%Check the accuracy and plausibility of each cam shape
+[plausiblex, accuracySumx, missedx, problemsx] = outerCamPlausibility(dFollower, xCamRad, 'X');
+[plausibley, accuracySumy, missedy, problemsy] = outerCamPlausibility(dFollower, yCamRad, 'Y');
+
 figure(3);
 subplot(1,2,1);
 plot(xRad_xPos, xRad_yPos);
+hold on
+%On top of the cam shape plots, plot an x for any points that make the cam
+%fail, plot a circle for any points that will not be read
+for i = 1:length(xCamRad)
+    if(problemsx(i))
+        scatter(xRad_xPos(i),xRad_yPos(i),'x')
+    end
+    if(missedx(i))
+        scatter(xRad_xPos(i),xRad_yPos(i),'o')
+    end
+end
+hold off
 title(strcat(filename, '-xCamShape'));
 xlabel('x position (in)');
 ylabel('y posiiton (in)');
 subplot(1,2,2);
 plot(yRad_xPos, yRad_yPos);
+hold on
+%On top of the cam shape plots, plot an x for any points that make the cam
+%fail, plot a circle for any points that will not be read
+for i = 1:length(yCamRad)
+    if(problemsy(i))
+        scatter(yRad_xPos(i),yRad_yPos(i),'x')
+    end
+    if(missedy(i))
+        scatter(yRad_xPos(i),yRad_yPos(i),'o')
+    end
+end
+hold off
 title(strcat(filename, '-yCamShape'));
 xlabel('x position (in)');
 ylabel('y posiiton (in)');
