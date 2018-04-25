@@ -1,5 +1,5 @@
 
-filename = 'Longhorn.png';
+filename = 'circle.png';
 strcat(filename)
 
 I = imread(strcat('test_images/', filename));
@@ -8,7 +8,7 @@ BW = im2bw(I);
 BW = imcomplement(BW);
 dim = size(BW);
 
-centerCamRad = 100;
+centerCamRad = 1.75;
 singleSideDel = centerCamRad - 1;
 
 i = 1; j = 1;
