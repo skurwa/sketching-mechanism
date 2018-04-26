@@ -12,8 +12,8 @@ BW = im2bw(I);
 BW = imcomplement(BW);
 dim = size(BW);
 
-centerCamRad = 2;
-singleSideDel = 1;
+centerCamRad = 2.5;
+singleSideDel = centerCamRad - ;
 
 i = 1; j = 1;
 noSeed = true;
