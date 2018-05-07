@@ -24,7 +24,7 @@ function [plausible, accuracySumX, accuracySumY, missedX, missedY, problemsX, pr
     for i = 1:arraySize
         relevPointX = ceil((arraySize*dFollower)/(2*pi*xRadii(i)));
         relevPointY = ceil((arraySize*dFollower)/(2*pi*yRadii(i)));
-        %disp("For radii " + i + ", relevant radiis: " + relevDeg)
+        %disp("For degree " + i + ", relevant degrees: " + relevDeg)
         
         if (relevPointX > 1) && (accuracyX(i))
             maxRad = max(xRadii(i+1:i+relevPointX));
@@ -52,21 +52,19 @@ function [plausible, accuracySumX, accuracySumY, missedX, missedY, problemsX, pr
         
         if ((xRadii(i+1)-xRadii(i)) >= dFollower/2)
             plausible = 0;
-            %disp("Cam X not possible because of radii: " + i)
+            disp("Cam X not possible because of degree: " + i)
             problemsX(i) = 1;
         end
 
         if ((yRadii(i+1)-yRadii(i)) >= dFollower/2)
             plausible = 0;
-            %disp("Cam Y not possible because of radii: " + i)
+            disp("Cam Y not possible because of degree: " + i)
             problemsY(i) = 1;
         end
         
         motorForceX = (torque/xRadii(i)) * cosd( (xRadii(i+1)-xRadii(i)) / ((2*pi*xRadii(i))/arraySize) );
-        motorForceY = (torque/yRadii(i)) * cosd( (yRadii(i+1)-yRadii(i)) / ((2*pi*yRadii(i))/arraySize) );
-        if ( k*(abs(springLen-xRadii(i))) + k*(abs(springLen-yRadii(i))) - motorForceX - motorForceY > 0)
-            problemsX(i) = 1;
-            problemsY(i) = 1;
+        motorForceY = (torque/yRadii(i)) * cosd( (yRadii(i+1)-yRadii(i)) / ((2*pi*xRadii(i))/arraySize) );
+        if ( k*(springLen-xRadii(i)) + (torque/xRadii(i)) * cosd( (xRadii(i+1)-xRadii(i)) / ((2*pi*xRadii(i))/arraySize) ) > 0)
             plausible = 0;
         end
     end
@@ -81,10 +79,10 @@ function [plausible, accuracySumX, accuracySumY, missedX, missedY, problemsX, pr
         if ((accuracySumX < 1) || (accuracySumY < 1))
             for m = 1:arraySize       
                 if (missedX(m))
-                    %disp("The x follower will miss radii " + m)
+                    disp("The x follower will miss degree " + m)
                 end
                 if (missedY(m))
-                    %disp("The y follower will miss radii " + m)
+                    disp("The y follower will miss degree " + m)
                 end
             end
         end
@@ -92,10 +90,10 @@ function [plausible, accuracySumX, accuracySumY, missedX, missedY, problemsX, pr
         disp("It's not possible!")
         for n = 1:arraySize
             if (problemsX(n))
-                %disp("radii " + n + " on x Cam is a problem")
+                disp("Degree " + n + " on x Cam is a problem")
             end
             if (problemsY(n))
-                %disp("radii " + n + " on y Cam is a problem")
+                disp("Degree " + n + " on y Cam is a problem")
             end
         end
     end
